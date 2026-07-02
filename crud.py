@@ -49,3 +49,38 @@ def listar_uma_valvula(nome):
     finally:
         cur.close()
         conn.close()
+
+def atualizar_nome_valvula(id,nome):
+    conn = get_connection()
+    cur = conn.cursor()
+    try:
+        cur.execute('SELECT * FROM produtos WHERE nome_valvula = %s AND id = %s',(nome,id))
+        row = cur.fetchone()
+        if row is True:
+            return{"mensagem" : "Já existe um produto com esse nome"}
+        cur.execute('UPDATE produtos SET nome_valvula = %s WHERE id = %s',(nome,id))
+        row_2 = cur.fetchone()
+        conn.commit()
+        return{"mensagem" : row_2}
+    except Exception as e:
+        conn.rollback()
+        return{"erro" : str(e)}
+    finally:
+        cur.close()
+        conn.close()
+
+def atualizar_qtd(id,qtd):
+    conn = get_connection()
+    cur = conn.cursor()
+    try:
+        cur.execute('UPDATE produtos SET qtd = %s WHERE id = %s',(qtd,id))
+        row = cur.fetchone()
+        conn.commit()
+        return{"mensagem" : row}
+    except Exception as e:
+        conn.rollback()
+        return{"erro" : str(e)}
+    finally:
+        cur.close()
+        conn.close()
+        
