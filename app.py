@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from schemas import addProduto
-from crud import cadastrar_produto,listar_valvulas
+from crud import cadastrar_produto,listar_valvulas,listar_uma_valvula
 app = FastAPI()
 
 @app.get('/')
@@ -9,8 +9,12 @@ def home():
 
 @app.post('/produtos')
 def cadastrar(novo_produto : addProduto):
-    cadastrar_produto(novo_produto.nome, novo_produto.qtd, novo_produto.marca)
+    return cadastrar_produto(novo_produto.nome, novo_produto.qtd, novo_produto.marca)
 
-@app.get('/produtos/busca')
+@app.get('/produtos/listar-valvulas')
 def buscar():
-    listar_valvulas()
+    return listar_valvulas()
+
+@app.get('/produtos/busca-uma-valvula')
+def buscar(nome : str):
+    return listar_uma_valvula(nome)
